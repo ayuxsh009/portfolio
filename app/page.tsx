@@ -1,103 +1,135 @@
-import Image from "next/image";
+"use client"
+
+import { useEffect, useState } from "react"
+import HeroSection from "@/components/hero-section"
+import Projects from "@/components/projects"
+import About from "@/components/about"
+import Skills from "@/components/skills"
+import Contact from "@/components/contact"
+import Footer from "@/components/footer"
+import { useActiveSectionContext } from "@/components/active-section-context"
+import dynamic from "next/dynamic"
+import { Canvas } from "@react-three/fiber"
+import { PerspectiveCamera, OrbitControls } from "@react-three/drei"
+import Scene from "@/components/scene"
+import { isMobile } from "react-device-detect"
+
+// Fallback component
+const FallbackBackground = () => (
+  <div className="fixed inset-0 bg-gradient-to-b from-slate-100 to-slate-200 dark:from-slate-900 dark:to-slate-800" />
+)
+
+// Dynamically import the professional 3D background with error handling
+const Professional3DBackground = dynamic(
+  () => import("@/components/professional-3d-background").catch(() => () => <FallbackBackground />),
+  {
+    ssr: false,
+    loading: () => <FallbackBackground />,
+  },
+)
+
+// Simple background as fallback
+const Simple3DBackground = dynamic(
+  () => import("@/components/simple-3d-background").catch(() => () => <FallbackBackground />),
+  {
+    ssr: false,
+    loading: () => <FallbackBackground />,
+  },
+)
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const { setActiveSection, setTimeOfLastClick } = useActiveSectionContext()
+  const [backgroundError, setBackgroundError] = useState(false)
+  const [useFallback, setUseFallback] = useState(false)
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  // Add useEffect to handle hash navigation on page load
+  useEffect(() => {
+    // Handle hash navigation on page load
+    if (typeof window !== "undefined") {
+      const hash = window.location.hash
+      if (hash) {
+        const id = hash.replace("#", "")
+        const element = document.getElementById(id)
+        if (element) {
+          setTimeout(() => {
+            element.scrollIntoView({ behavior: "smooth" })
+            setActiveSection(id as any)
+            setTimeOfLastClick(Date.now())
+          }, 100)
+        }
+      }
+    }
+  }, [setActiveSection, setTimeOfLastClick])
+
+  // Add error handling for the 3D background
+  useEffect(() => {
+    const handleError = (event) => {
+      // Safely handle the error event
+      if (
+        event &&
+        event.message &&
+        (event.message.includes("three") ||
+          event.message.includes("webgl") ||
+          event.message.includes("canvas") ||
+          event.message.includes("undefined"))
+      ) {
+        // Try the fallback first
+        if (!useFallback) {
+          setUseFallback(true)
+        } else {
+          // If fallback also fails, show static background
+          setBackgroundError(true)
+        }
+      }
+    }
+
+    window.addEventListener("error", handleError)
+    return () => window.removeEventListener("error", handleError)
+  }, [useFallback])
+
+  // Render the appropriate background
+  const renderBackground = () => {
+    if (backgroundError) {
+      return <FallbackBackground />
+    } else if (useFallback) {
+      return <Simple3DBackground />
+    } else {
+      return (
+        <div className="!fixed inset-0 z-[-1]">
+          <Canvas
+            dpr={[1, isMobile ? 1.5 : 1.8]}
+            camera={{ position: [0, 0, 20], fov: 60, near: 0.1, far: 1000 }}
+            gl={{
+              antialias: true,
+              alpha: false,
+              powerPreference: "default",
+            }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+            <PerspectiveCamera makeDefault position={[0, 0, 20]} fov={60} />
+            <Scene />
+            <OrbitControls
+              enableZoom={false}
+              enablePan={false}
+              enableRotate={false}
+              maxPolarAngle={Math.PI / 1.5}
+              minPolarAngle={Math.PI / 3}
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          </Canvas>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+      )
+    }
+  }
+
+  return (
+    <main className="relative">
+      {renderBackground()}
+
+      <HeroSection />
+      <Projects />
+      <About />
+      <Skills />
+      <Contact />
+      <Footer />
+    </main>
+  )
 }
