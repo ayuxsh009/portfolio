@@ -9,24 +9,17 @@ import Contact from "@/components/contact"
 import Footer from "@/components/footer"
 import { useActiveSectionContext } from "@/components/active-section-context"
 import dynamic from "next/dynamic"
-import { Canvas } from "@react-three/fiber"
-import { PerspectiveCamera, OrbitControls } from "@react-three/drei"
-import Scene from "@/components/scene"
-import { isMobile } from "react-device-detect"
+
+// Import the DSA Stats component
+import DSAStats from "@/components/dsa-stats"
 
 // Fallback component
 const FallbackBackground = () => (
   <div className="fixed inset-0 bg-gradient-to-b from-slate-100 to-slate-200 dark:from-slate-900 dark:to-slate-800" />
 )
 
-// Dynamically import the professional 3D background with error handling
-const Professional3DBackground = dynamic(
-  () => import("@/components/professional-3d-background").catch(() => () => <FallbackBackground />),
-  {
-    ssr: false,
-    loading: () => <FallbackBackground />,
-  },
-)
+// Dynamically import the minimal background with error handling
+
 
 // Simple background as fallback
 const Simple3DBackground = dynamic(
@@ -93,33 +86,10 @@ export default function Home() {
       return <FallbackBackground />
     } else if (useFallback) {
       return <Simple3DBackground />
-    } else {
-      return (
-        <div className="!fixed inset-0 z-[-1]">
-          <Canvas
-            dpr={[1, isMobile ? 1.5 : 1.8]}
-            camera={{ position: [0, 0, 20], fov: 60, near: 0.1, far: 1000 }}
-            gl={{
-              antialias: true,
-              alpha: false,
-              powerPreference: "default",
-            }}
-          >
-            <PerspectiveCamera makeDefault position={[0, 0, 20]} fov={60} />
-            <Scene />
-            <OrbitControls
-              enableZoom={false}
-              enablePan={false}
-              enableRotate={false}
-              maxPolarAngle={Math.PI / 1.5}
-              minPolarAngle={Math.PI / 3}
-            />
-          </Canvas>
-        </div>
-      )
-    }
+    } 
   }
 
+  // Add the DSAStats component to the main component's return statement, right after Skills component
   return (
     <main className="relative">
       {renderBackground()}
@@ -128,6 +98,7 @@ export default function Home() {
       <Projects />
       <About />
       <Skills />
+      <DSAStats />
       <Contact />
       <Footer />
     </main>
