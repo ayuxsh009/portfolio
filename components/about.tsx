@@ -19,48 +19,23 @@ interface TimelineItem {
 const timelineItems: TimelineItem[] = [
   {
     id: 1,
-    title: "Senior Frontend Developer",
-    organization: "Tech Solutions Inc.",
-    period: "2021 - Present",
-    description:
-      "Leading the frontend development team, implementing modern UI/UX practices, and optimizing application performance.",
-    type: "work",
-  },
+    title: "B.Tech in Computer Science and Engineering",
+    organization: "Indian Institute of Information Technology, Design and Manufacturing Jabalpur",
+    period: "2023 - 2027",
+    description: "Pursuing B.Tech with a focus on software development and web technologies.",
+    type: "education"
+  }
+  ,
   {
     id: 2,
-    title: "Frontend Developer",
-    organization: "Digital Innovations",
-    period: "2018 - 2021",
-    description:
-      "Developed responsive web applications using React, implemented state management solutions, and collaborated with design teams.",
-    type: "work",
-  },
-  {
-    id: 3,
-    title: "Master of Computer Science",
-    organization: "University of Technology",
-    period: "2016 - 2018",
-    description:
-      "Specialized in Human-Computer Interaction and Web Technologies with a focus on modern frontend frameworks.",
-    type: "education",
-  },
-  {
-    id: 4,
-    title: "Best Web Application Award",
-    organization: "Web Dev Conference",
-    period: "2020",
-    description:
-      "Received recognition for developing an innovative web application with exceptional user experience and performance.",
-    type: "award",
-  },
-  {
-    id: 5,
-    title: "Bachelor of Computer Science",
-    organization: "State University",
-    period: "2012 - 2016",
-    description: "Graduated with honors, focusing on software development and web technologies.",
-    type: "education",
-  },
+    title: "Intermediate (Science - Mathematics)",
+    organization: "TPS College, Patna",
+    period: "2020 - 2022",
+    description: "Completed intermediate education with a focus on Mathematics, Physics, and Chemistry.",
+    type: "education"
+  }
+,  
+ 
 ]
 
 export default function About() {
