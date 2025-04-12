@@ -1,46 +1,63 @@
-"use client"
+"use client";
 
-import { useState, useEffect, useRef } from "react"
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
-import Image from "next/image"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Download, Send, Menu, X, Code, Terminal, Database, Server } from "lucide-react"
-import { useTheme } from "next-themes"
-import ThemeToggle from "./theme-toggle"
-import { cn } from "@/lib/utils"
-import { useMobile } from "@/hooks/use-mobile"
-import { useActiveSectionContext } from "./active-section-context"
-import AnimatedTooltip from "./animated-tooltip"
+import { useState, useEffect, useRef } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  AnimatePresence,
+} from "framer-motion";
+import Image from "next/image";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import {
+  Download,
+  Send,
+  Menu,
+  X,
+  Code,
+  Terminal,
+  Database,
+  Server,
+} from "lucide-react";
+import { useTheme } from "next-themes";
+import ThemeToggle from "./theme-toggle";
+import { cn } from "@/lib/utils";
+import { useMobile } from "@/hooks/use-mobile";
+import { useActiveSectionContext } from "./active-section-context";
+import AnimatedTooltip from "./animated-tooltip";
+import { Brain } from "lucide-react";
+import { Layers } from "lucide-react";
 
 export default function HeroSection() {
-  const { theme } = useTheme()
-  const containerRef = useRef<HTMLDivElement>(null)
-  const [mounted, setMounted] = useState(false)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-  const isMobile = useMobile()
-  const { activeSection, setActiveSection, setTimeOfLastClick } = useActiveSectionContext()
+  const { theme } = useTheme();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const isMobile = useMobile();
+  const { activeSection, setActiveSection, setTimeOfLastClick } =
+    useActiveSectionContext();
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end start"],
-  })
+  });
 
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
-  const y = useTransform(scrollYProgress, [0, 0.5], [0, 100])
-  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95])
+  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const y = useTransform(scrollYProgress, [0, 0.5], [0, 100]);
+  const scale = useTransform(scrollYProgress, [0, 0.5], [1, 0.95]);
 
   useEffect(() => {
-    setMounted(true)
+    setMounted(true);
 
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50)
-    }
+      setScrolled(window.scrollY > 50);
+    };
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navItems = [
     { name: "Home", href: "#home" },
@@ -48,14 +65,14 @@ export default function HeroSection() {
     { name: "About", href: "#about" },
     { name: "Skills", href: "#skills" },
     { name: "Contact", href: "#contact" },
-  ]
+  ];
 
   if (!mounted) {
     return (
       <div className="h-screen w-full bg-background flex items-center justify-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
       </div>
-    )
+    );
   }
 
   return (
@@ -68,7 +85,7 @@ export default function HeroSection() {
       <motion.div
         className={cn(
           "fixed top-0 left-0 w-full z-40 transition-all duration-300",
-          scrolled ? "bg-background/80 backdrop-blur-md shadow-md py-2" : "py-4",
+          scrolled ? "bg-background/80 backdrop-blur-md shadow-md py-2" : "py-4"
         )}
         initial={{ y: -100 }}
         animate={{ y: 0 }}
@@ -84,9 +101,9 @@ export default function HeroSection() {
             <Link
               href="#home"
               onClick={() => {
-                setActiveSection("home")
-                setTimeOfLastClick(Date.now())
-                window.scrollTo({ top: 0, behavior: "smooth" })
+                setActiveSection("home");
+                setTimeOfLastClick(Date.now());
+                window.scrollTo({ top: 0, behavior: "smooth" });
               }}
             >
               <div className="relative w-10 h-10 group">
@@ -99,13 +116,13 @@ export default function HeroSection() {
             <Link
               href="#home"
               onClick={() => {
-                setActiveSection("home")
-                setTimeOfLastClick(Date.now())
-                window.scrollTo({ top: 0, behavior: "smooth" })
+                setActiveSection("home");
+                setTimeOfLastClick(Date.now());
+                window.scrollTo({ top: 0, behavior: "smooth" });
               }}
             >
               <span className="text-2xl font-bold text-foreground hover:text-primary transition-colors">
-                DevPortfolio
+                Portfolio
               </span>
             </Link>
           </motion.div>
@@ -122,15 +139,18 @@ export default function HeroSection() {
                   href={item.href}
                   className={cn(
                     "text-muted-foreground hover:text-foreground transition-colors relative group py-2",
-                    activeSection === item.name.toLowerCase() && "text-foreground font-medium",
+                    activeSection === item.name.toLowerCase() &&
+                      "text-foreground font-medium"
                   )}
                   onClick={(e) => {
-                    e.preventDefault()
-                    setActiveSection(item.name.toLowerCase() as any)
-                    setTimeOfLastClick(Date.now())
-                    const element = document.getElementById(item.name.toLowerCase())
+                    e.preventDefault();
+                    setActiveSection(item.name.toLowerCase() as any);
+                    setTimeOfLastClick(Date.now());
+                    const element = document.getElementById(
+                      item.name.toLowerCase()
+                    );
                     if (element) {
-                      element.scrollIntoView({ behavior: "smooth" })
+                      element.scrollIntoView({ behavior: "smooth" });
                     }
                   }}
                 >
@@ -138,7 +158,7 @@ export default function HeroSection() {
                   <span
                     className={cn(
                       "absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full",
-                      activeSection === item.name.toLowerCase() && "w-full",
+                      activeSection === item.name.toLowerCase() && "w-full"
                     )}
                   ></span>
                 </Link>
@@ -147,7 +167,13 @@ export default function HeroSection() {
           </div>
 
           <div className="flex items-center gap-4">
-            <AnimatedTooltip content={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}>
+            <AnimatedTooltip
+              content={
+                theme === "dark"
+                  ? "Switch to light mode"
+                  : "Switch to dark mode"
+              }
+            >
               <ThemeToggle />
             </AnimatedTooltip>
             <button
@@ -184,16 +210,19 @@ export default function HeroSection() {
                       href={item.href}
                       className={cn(
                         "text-muted-foreground hover:text-foreground transition-colors py-2 block",
-                        activeSection === item.name.toLowerCase() && "text-foreground font-medium",
+                        activeSection === item.name.toLowerCase() &&
+                          "text-foreground font-medium"
                       )}
                       onClick={(e) => {
-                        e.preventDefault()
-                        setActiveSection(item.name.toLowerCase() as any)
-                        setTimeOfLastClick(Date.now())
-                        setMobileMenuOpen(false)
-                        const element = document.getElementById(item.name.toLowerCase())
+                        e.preventDefault();
+                        setActiveSection(item.name.toLowerCase() as any);
+                        setTimeOfLastClick(Date.now());
+                        setMobileMenuOpen(false);
+                        const element = document.getElementById(
+                          item.name.toLowerCase()
+                        );
                         if (element) {
-                          element.scrollIntoView({ behavior: "smooth" })
+                          element.scrollIntoView({ behavior: "smooth" });
                         }
                       }}
                     >
@@ -223,7 +252,12 @@ export default function HeroSection() {
             <div className="relative">
               <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-primary/20 via-primary/10 to-primary/20 blur-lg animate-pulse-slow"></div>
               <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full overflow-hidden border-8 border-background/80 dark:border-black/80 shadow-2xl">
-                <Image src="/profile.jpg" alt="Profile" fill className="object-cover" />
+                <Image
+                  src="/profile.jpg"
+                  alt="Profile"
+                  fill
+                  className="object-cover"
+                />
                 <div className="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent"></div>
               </div>
 
@@ -277,7 +311,13 @@ export default function HeroSection() {
               transition={{ duration: 0.5, delay: 0.8 }}
               className="mb-6"
             >
-              <TypewriterEffect texts={["Computer Science Student", "Software Developer", "AI Enthusiast"]} />
+              <TypewriterEffect
+                texts={[
+                  "Computer Science Student",
+                  "Software Developer",
+                  "AI Enthusiast",
+                ]}
+              />
             </motion.div>
 
             <motion.p
@@ -286,8 +326,10 @@ export default function HeroSection() {
               transition={{ duration: 0.5, delay: 0.9 }}
               className="text-muted-foreground mb-8 max-w-md"
             >
-              I'm a passionate Computer Science & Engineering student with a focus on AI and full-stack development. I
-              love solving complex problems and building innovative applications that make a difference.
+              I'm a passionate Computer Science & Engineering student with a
+              focus on AI and full-stack development. I love solving complex
+              problems and building innovative applications that make a
+              difference.
             </motion.p>
 
             <motion.div
@@ -300,11 +342,11 @@ export default function HeroSection() {
                 size="lg"
                 className="gap-2 relative group overflow-hidden"
                 onClick={() => {
-                  setActiveSection("contact")
-                  setTimeOfLastClick(Date.now())
-                  const element = document.getElementById("contact")
+                  setActiveSection("contact");
+                  setTimeOfLastClick(Date.now());
+                  const element = document.getElementById("contact");
                   if (element) {
-                    element.scrollIntoView({ behavior: "smooth" })
+                    element.scrollIntoView({ behavior: "smooth" });
                   }
                 }}
               >
@@ -314,11 +356,20 @@ export default function HeroSection() {
               </Button>
 
               <AnimatedTooltip content="Download my resume in PDF format">
-                <Button size="lg" variant="outline" className="gap-2 relative group overflow-hidden">
-                  <span className="absolute inset-0 w-0 bg-primary/10 transition-all duration-300 group-hover:w-full"></span>
-                  <Download size={18} />
-                  <span>Download CV</span>
-                </Button>
+                <a
+                  href="https://drive.usercontent.google.com/u/0/uc?id=1u7JzJgTOrwfuzQozNqMFPrSfeuGt3Ohc&export=download"
+                  download
+                >
+                  <Button
+                    size="lg"
+                    variant="outline"
+                    className="gap-2 relative group overflow-hidden"
+                  >
+                    <span className="absolute inset-0 w-0 bg-primary/10 transition-all duration-300 group-hover:w-full"></span>
+                    <Download size={18} />
+                    <span>Download CV</span>
+                  </Button>
+                </a>
               </AnimatedTooltip>
             </motion.div>
 
@@ -337,15 +388,16 @@ export default function HeroSection() {
               </div>
               <div className="text-center p-3 rounded-lg bg-background/50 backdrop-blur-sm border border-border/50 hover:border-primary/30 transition-colors duration-300">
                 <div className="flex justify-center mb-1">
-                  <Server className="h-5 w-5 text-primary" />
+                  <Layers className="h-5 w-5 text-primary" />
                 </div>
-                <div className="text-sm font-medium">Cloud Computing</div>
+                <div className="text-sm font-medium">Full Stack Developer</div>
               </div>
+
               <div className="text-center p-3 rounded-lg bg-background/50 backdrop-blur-sm border border-border/50 hover:border-primary/30 transition-colors duration-300">
                 <div className="flex justify-center mb-1">
-                  <Database className="h-5 w-5 text-primary" />
+                  <Brain className="h-5 w-5 text-primary" />
                 </div>
-                <div className="text-sm font-medium">Data Science</div>
+                <div className="text-sm font-medium">AI & Machine Learning</div>
               </div>
             </motion.div>
           </motion.div>
@@ -365,11 +417,11 @@ export default function HeroSection() {
           ease: "easeInOut",
         }}
         onClick={() => {
-          setActiveSection("projects")
-          setTimeOfLastClick(Date.now())
-          const element = document.getElementById("projects")
+          setActiveSection("projects");
+          setTimeOfLastClick(Date.now());
+          const element = document.getElementById("projects");
           if (element) {
-            element.scrollIntoView({ behavior: "smooth" })
+            element.scrollIntoView({ behavior: "smooth" });
           }
         }}
       >
@@ -389,41 +441,41 @@ export default function HeroSection() {
         </div>
       </motion.div>
     </section>
-  )
+  );
 }
 
 // Typewriter effect component
 function TypewriterEffect({ texts }: { texts: string[] }) {
-  const [currentTextIndex, setCurrentTextIndex] = useState(0)
-  const [currentText, setCurrentText] = useState("")
-  const [isDeleting, setIsDeleting] = useState(false)
+  const [currentTextIndex, setCurrentTextIndex] = useState(0);
+  const [currentText, setCurrentText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     const timeout = setTimeout(
       () => {
-        const fullText = texts[currentTextIndex]
+        const fullText = texts[currentTextIndex];
 
         if (!isDeleting) {
-          setCurrentText(fullText.substring(0, currentText.length + 1))
+          setCurrentText(fullText.substring(0, currentText.length + 1));
 
           if (currentText === fullText) {
-            setIsDeleting(true)
-            setTimeout(() => {}, 1000) // Pause at the end
+            setIsDeleting(true);
+            setTimeout(() => {}, 1000); // Pause at the end
           }
         } else {
-          setCurrentText(fullText.substring(0, currentText.length - 1))
+          setCurrentText(fullText.substring(0, currentText.length - 1));
 
           if (currentText === "") {
-            setIsDeleting(false)
-            setCurrentTextIndex((currentTextIndex + 1) % texts.length)
+            setIsDeleting(false);
+            setCurrentTextIndex((currentTextIndex + 1) % texts.length);
           }
         }
       },
-      isDeleting ? 50 : 100,
-    )
+      isDeleting ? 50 : 100
+    );
 
-    return () => clearTimeout(timeout)
-  }, [currentText, currentTextIndex, isDeleting, texts])
+    return () => clearTimeout(timeout);
+  }, [currentText, currentTextIndex, isDeleting, texts]);
 
   return (
     <div className="h-8">
@@ -432,5 +484,5 @@ function TypewriterEffect({ texts }: { texts: string[] }) {
         <span className="animate-pulse">|</span>
       </h2>
     </div>
-  )
+  );
 }

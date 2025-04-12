@@ -96,7 +96,6 @@ function TechKeywords() {
     "Algorithms",
     "Data Structures",
     "Machine Learning",
-    "Cloud Computing",
     "Software Engineering",
     "Artificial Intelligence",
   ]

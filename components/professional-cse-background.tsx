@@ -268,8 +268,6 @@ function TechKeywords() {
     "Algorithms",
     "Data Structures",
     "Machine Learning",
-    "Cloud Computing",
-    "Cybersecurity",
     "Software Engineering",
     "Database Systems",
     "Networking",
