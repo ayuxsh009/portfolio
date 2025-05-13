@@ -1,118 +1,239 @@
-"use client"
+"use client";
+import Link from 'next/link';
 
-import { useState, useRef, useEffect } from "react"
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion"
-import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { ExternalLink, Github, ChevronLeft, ChevronRight, Code } from "lucide-react"
-import Image from "next/image"
-import { useMobile } from "@/hooks/use-mobile"
-import { cn } from "@/lib/utils"
-import SectionHeading from "./section-heading"
-import AnimatedTooltip from "./animated-tooltip"
+import { useState, useRef, useEffect } from "react";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  AnimatePresence,
+} from "framer-motion";
+import {
+  Card,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  ExternalLink,
+  Github,
+  ChevronLeft,
+  ChevronRight,
+  Code,
+} from "lucide-react";
+import Image from "next/image";
+import { useMobile } from "@/hooks/use-mobile";
+import { cn } from "@/lib/utils";
+import SectionHeading from "./section-heading";
+import AnimatedTooltip from "./animated-tooltip";
 
 interface Project {
-  id: number
-  title: string
-  description: string
-  image: string
-  technologies: string[]
-  github: string
-  demo: string
-  featured: boolean
-  color: string
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  technologies: string[];
+  github: string;
+  demo: string;
+  featured: boolean;
+  color: string;
+  keyFeatures: string[];
 }
 
 const projects: Project[] = [
   {
     id: 1,
-    title: "E-Commerce Platform",
+    title: "Kavach - Women Safety Web Application",
     description:
-      "A full-featured e-commerce platform with payment integration, user authentication, and admin dashboard.",
-    image: "/sleek-product-showcase.png",
-    technologies: ["React", "Node.js", "MongoDB", "Stripe"],
-    github: "https://github.com",
-    demo: "https://demo.com",
+      "A women safety web app with real-time emergency alerts, live location sharing, complaint filing, and admin monitoring dashboard.",
+    image: "/project1.png",
+    technologies: ["React", "Node.js", "MongoDB", "Tailwind CSS", "javascript"],
+    github: "https://github.com/ayuxsh009/Kavach",
+    demo: "https://kavach-3hfl.onrender.com/",
     featured: true,
     color: "#3b82f6",
+    keyFeatures: [
+      "🚨 Emergency alerts with real-time live location sharing",
+      "📝 File complaints with evidence upload and status tracking",
+      "👮‍♀️ Admin dashboard to manage users and monitor activity",
+      "📍 Google Maps integration for accurate location tracking",
+      "🔔 Real-time notifications for updates and alerts",
+      "🧑‍💼 User authentication and profile management",
+    ],
   },
   {
     id: 2,
-    title: "AI Content Generator",
-    description: "An AI-powered application that generates content based on user prompts using OpenAI API.",
-    image: "/ai-content-creation-interface.png",
-    technologies: ["Next.js", "OpenAI", "Tailwind CSS", "Vercel"],
-    github: "https://github.com",
-    demo: "https://demo.com",
+    title:
+      "Saarthi: Empowering Rural Education through Interactive Learning and Gamification",
+    description:
+      "A rural education web app designed to empower children with interactive learning, gamified elements, and a responsive, user-friendly interface.",
+    image: "/project2.png",
+    technologies: [
+      "Next.js",
+      "OpenAI",
+      "Tailwind CSS",
+      "Vercel",
+      "Javascript",
+      "Typescript",
+    ],
+    github: "https://github.com/ayuxsh009/Saarthi_PR201",
+    demo: "https://saarthi-pr-201.vercel.app/",
     featured: true,
     color: "#8b5cf6",
+    keyFeatures: [
+      "🧑‍💼 User authentication and profile management",
+      "📚 Interactive learning modules with gamified features",
+      "📱 Responsive design for seamless use on any device",
+      "🔄 Real-time progress tracking for students",
+      "🔔 Instant notifications for updates and new content",
+      "🎮 Game-like rewards and challenges to motivate learning",
+    ],
   },
   {
     id: 3,
-    title: "Real-time Chat Application",
-    description: "A real-time chat application with features like message encryption, file sharing, and video calls.",
+    title: "Interview Prep Hub: AI-Powered Interview Preparation",
+    description:
+      "An AI-powered interview preparation platform offering personalized content, flashcards, quizzes, notes, and your ",
     image: "/connected-conversations.png",
-    technologies: ["React", "Socket.io", "WebRTC", "Firebase"],
-    github: "https://github.com",
-    demo: "https://demo.com",
+    technologies: ["Next.js",
+      "OpenAI",
+      "Tailwind CSS",
+      "Vercel",
+      "Javascript",
+      "Typescript",
+    "PostgreSQL"],
+    github: "https://github.com/ayuxsh009/Interview-Wrapper-Prep",
+    demo: "https://interview-wrapper-prep.vercel.app/",
     featured: false,
     color: "#ec4899",
+    keyFeatures: [
+      "🧠 AI-curated learning paths for personalized interview prep",
+      "📚 Structured courses, quizzes, and coding challenges",
+      "🧩 DSA problems with AI-generated hints and solutions",
+      "🎮 Gamified dashboard with progress tracking and achievements",
+      "🤖 AI-powered mock interviews for DSA and behavioral questions",
+      "📈 Detailed performance analytics and feedback",
+      "📂 Curated library of resources, templates, and cheat sheets",
+    ],
   },
   {
     id: 4,
-    title: "3D Portfolio Website",
-    description: "A portfolio website with 3D elements, animations, and interactive UI components.",
-    image: "/futuristic-portfolio-display.png",
-    technologies: ["Three.js", "React", "GSAP", "Blender"],
-    github: "https://github.com",
-    demo: "https://demo.com",
-    featured: true,
+    title:
+      "Mentor Connect: Book 1:1 Sessions, Share Doubts & Learn Directly from Experts",
+    description:
+      "A personalized mentorship platform for booking one-on-one sessions, sharing doubts, and collaborating with experts via live calls and note sharing.",
+    image: "/p4.png",
+    technologies: ["Next.js",
+      "OpenAI",
+      "Tailwind CSS",
+      "Vercel",
+      "Javascript",
+      "Typescript",],
+    github: "https://github.com/ayuxsh009/Mentor-Meet-Booking",
+    demo: "https://saarthi-mentor-meet-booking.vercel.app/",
+    featured: false,
     color: "#10b981",
+    keyFeatures: [
+      "📅 Book one-on-one mentor sessions with real-time availability",
+      "📞 Live video/audio calls for personalized guidance",
+      "📤 Share doubts and notes before or during the call",
+      "📝 Upload and discuss code snippets, questions, or documents",
+      "🧑‍🏫 Expert mentors from top tech backgrounds",
+      "🔔 Session reminders and follow-up notifications",
+      "📂 Access session history, shared resources, and notes",
+      "🧭 Smart mentor recommendations based on user needs",
+    ],
   },
-]
+  {
+    id: 5,
+    title: "AI-Integrated Interview Platform: Real-Time Coding, AI Bot & Proctoring",
+    description:
+      "A comprehensive AI-powered interview platform that combines real-time coding, AI-driven mock interviews, Zoom-style video calls, and intelligent proctoring for fair and effective candidate evaluation.",
+    image: "/futuristic-portfolio-display.png", // Replace with your actual image path or name
+    technologies: [
+      "Next.js",
+      "TypeScript",
+      "Tailwind CSS",
+      "Clerk",
+      "Convex",
+      "NeonDB",
+      "RxDB",
+      "OpenAI",
+      "ElevenLabs",
+      "Gemini API"
+    ],
+    github: "https://github.com/supernova0311/interview-wrapper",
+    demo: "https://interview-wrapper.vercel.app/",
+    featured: true,
+    color: "#3b82f6", // Tailwind's blue-500, adjust as needed
+    keyFeatures: [
+      "📹 Zoom-style interview rooms with voice/video calls and custom controls",
+      "💻 Real-time collaborative code editor with syntax highlighting and multi-language support",
+      "🤖 AI Interview Bot for DSA and behavioral interviews using OpenAI and Gemini",
+      "🗣 Voice synthesis with ElevenLabs and real-time speech-to-text via Whisper",
+      "🧠 Tracks candidate tone, hesitation, and explanation depth",
+      "📚 AI-curated interview prep hub with quizzes, challenges, and gamified progress tracking",
+      "🛡 Anti-cheating system with tab-switch detection, webcam monitoring, and emotion analysis",
+      "📊 AI-generated post-interview reports with behavioral and risk analysis"
+    ]
+  },
+  
+];
 
 export default function Projects() {
-  const containerRef = useRef<HTMLDivElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start end", "end start"],
-  })
+  });
 
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0])
-  const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.8, 1, 1, 0.8])
+  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+  const scale = useTransform(
+    scrollYProgress,
+    [0, 0.2, 0.8, 1],
+    [0.8, 1, 1, 0.8]
+  );
 
-  const [hoveredProject, setHoveredProject] = useState<number | null>(null)
-  const [currentProject, setCurrentProject] = useState(0)
-  const [isAnimating, setIsAnimating] = useState(false)
-  const featuredProjects = projects.filter((project) => project.featured)
-  const isMobile = useMobile()
+  const [hoveredProject, setHoveredProject] = useState<number | null>(null);
+  const [currentProject, setCurrentProject] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const featuredProjects = projects.filter((project) => project.featured);
+  const isMobile = useMobile();
 
   const nextProject = () => {
-    if (isAnimating) return
-    setIsAnimating(true)
-    setCurrentProject((prev) => (prev + 1) % featuredProjects.length)
-    setTimeout(() => setIsAnimating(false), 500)
-  }
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setCurrentProject((prev) => (prev + 1) % featuredProjects.length);
+    setTimeout(() => setIsAnimating(false), 500);
+  };
 
   const prevProject = () => {
-    if (isAnimating) return
-    setIsAnimating(true)
-    setCurrentProject((prev) => (prev - 1 + featuredProjects.length) % featuredProjects.length)
-    setTimeout(() => setIsAnimating(false), 500)
-  }
+    if (isAnimating) return;
+    setIsAnimating(true);
+    setCurrentProject(
+      (prev) => (prev - 1 + featuredProjects.length) % featuredProjects.length
+    );
+    setTimeout(() => setIsAnimating(false), 500);
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
       if (!isAnimating) {
-        nextProject()
+        nextProject();
       }
-    }, 8000)
-    return () => clearInterval(interval)
-  }, [isAnimating])
+    }, 8000);
+    return () => clearInterval(interval);
+  }, [isAnimating]);
 
   return (
-    <section id="projects" className="py-20 w-full bg-background overflow-hidden" ref={containerRef}>
+    <section
+      id="projects"
+      className="py-20 w-full bg-background overflow-hidden"
+      ref={containerRef}
+    >
       <motion.div className="container mx-auto px-4" style={{ opacity, scale }}>
         <SectionHeading
           badge="My Work"
@@ -136,23 +257,36 @@ export default function Projects() {
                   <div className="relative h-[300px] md:h-[400px] rounded-xl overflow-hidden group">
                     <div
                       className="absolute inset-0 opacity-20 z-0"
-                      style={{ backgroundColor: featuredProjects[currentProject].color }}
+                      style={{
+                        backgroundColor: featuredProjects[currentProject].color,
+                      }}
                     ></div>
                     <Image
-                      src={featuredProjects[currentProject].image || "/placeholder.svg"}
+                      src={
+                        featuredProjects[currentProject].image ||
+                        "/placeholder.svg"
+                      }
                       alt={featuredProjects[currentProject].title}
                       fill
                       className="object-cover z-10 transition-transform duration-700 group-hover:scale-105"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6 z-20">
                       <div>
-                        <h3 className="text-2xl font-bold text-white mb-2">{featuredProjects[currentProject].title}</h3>
+                        <h3 className="text-2xl font-bold text-white mb-2">
+                          {featuredProjects[currentProject].title}
+                        </h3>
                         <div className="flex flex-wrap gap-2 mb-4">
-                          {featuredProjects[currentProject].technologies.map((tech) => (
-                            <Badge key={tech} variant="secondary" className="bg-white/20 text-white">
-                              {tech}
-                            </Badge>
-                          ))}
+                          {featuredProjects[currentProject].technologies.map(
+                            (tech) => (
+                              <Badge
+                                key={tech}
+                                variant="secondary"
+                                className="bg-white/20 text-white"
+                              >
+                                {tech}
+                              </Badge>
+                            )
+                          )}
                         </div>
                       </div>
                     </div>
@@ -160,49 +294,38 @@ export default function Projects() {
 
                   <div className="space-y-6">
                     <div>
-                      <h3 className="text-2xl font-bold mb-2">{featuredProjects[currentProject].title}</h3>
-                      <p className="text-muted-foreground">{featuredProjects[currentProject].description}</p>
+                      <h3 className="text-2xl font-bold mb-2">
+                        {featuredProjects[currentProject].title}
+                      </h3>
+                      <p className="text-muted-foreground">
+                        {featuredProjects[currentProject].description}
+                      </p>
                     </div>
 
                     <div className="space-y-4">
                       <h4 className="font-semibold">Key Features</h4>
                       <ul className="space-y-2">
-                        <li className="flex items-start gap-2">
-                          <span
-                            className="h-6 w-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
-                            style={{ backgroundColor: `${featuredProjects[currentProject].color}20` }}
-                          >
-                            <span
-                              className="h-2 w-2 rounded-full"
-                              style={{ backgroundColor: featuredProjects[currentProject].color }}
-                            ></span>
-                          </span>
-                          <span>Responsive design for all device sizes</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <span
-                            className="h-6 w-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
-                            style={{ backgroundColor: `${featuredProjects[currentProject].color}20` }}
-                          >
-                            <span
-                              className="h-2 w-2 rounded-full"
-                              style={{ backgroundColor: featuredProjects[currentProject].color }}
-                            ></span>
-                          </span>
-                          <span>Optimized performance and accessibility</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <span
-                            className="h-6 w-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
-                            style={{ backgroundColor: `${featuredProjects[currentProject].color}20` }}
-                          >
-                            <span
-                              className="h-2 w-2 rounded-full"
-                              style={{ backgroundColor: featuredProjects[currentProject].color }}
-                            ></span>
-                          </span>
-                          <span>Modern UI with intuitive user experience</span>
-                        </li>
+                        {featuredProjects[currentProject].keyFeatures.map(
+                          (feature, index) => (
+                            <li key={index} className="flex items-start gap-2">
+                              <span
+                                className="h-6 w-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5"
+                                style={{
+                                  backgroundColor: `${featuredProjects[currentProject].color}20`,
+                                }}
+                              >
+                                <span
+                                  className="h-2 w-2 rounded-full"
+                                  style={{
+                                    backgroundColor:
+                                      featuredProjects[currentProject].color,
+                                  }}
+                                ></span>
+                              </span>
+                              <span>{feature}</span>
+                            </li>
+                          )
+                        )}
                       </ul>
                     </div>
 
@@ -211,7 +334,10 @@ export default function Projects() {
                         <Button
                           asChild
                           variant="default"
-                          style={{ backgroundColor: featuredProjects[currentProject].color }}
+                          style={{
+                            backgroundColor:
+                              featuredProjects[currentProject].color,
+                          }}
                           className="transition-transform hover:scale-105"
                         >
                           <a
@@ -226,7 +352,11 @@ export default function Projects() {
                         </Button>
                       </AnimatedTooltip>
                       <AnimatedTooltip content="View source code on GitHub">
-                        <Button asChild variant="outline" className="transition-transform hover:scale-105">
+                        <Button
+                          asChild
+                          variant="outline"
+                          className="transition-transform hover:scale-105"
+                        >
                           <a
                             href={featuredProjects[currentProject].github}
                             target="_blank"
@@ -273,14 +403,16 @@ export default function Projects() {
                     key={index}
                     onClick={() => {
                       if (!isAnimating) {
-                        setIsAnimating(true)
-                        setCurrentProject(index)
-                        setTimeout(() => setIsAnimating(false), 500)
+                        setIsAnimating(true);
+                        setCurrentProject(index);
+                        setTimeout(() => setIsAnimating(false), 500);
                       }
                     }}
                     className={cn(
                       "h-3 w-12 rounded-full transition-all duration-300",
-                      currentProject === index ? "bg-primary" : "bg-muted-foreground/30 hover:bg-muted-foreground/50",
+                      currentProject === index
+                        ? "bg-primary"
+                        : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
                     )}
                     aria-label={`Go to project ${index + 1}`}
                   />
@@ -314,7 +446,10 @@ export default function Projects() {
             >
               <Card className="overflow-hidden h-full transition-all duration-300 hover:shadow-lg group border-border/50 hover:border-primary/30">
                 <div className="relative h-60 overflow-hidden">
-                  <div className="absolute inset-0 opacity-20 z-0" style={{ backgroundColor: project.color }}></div>
+                  <div
+                    className="absolute inset-0 opacity-20 z-0"
+                    style={{ backgroundColor: project.color }}
+                  ></div>
                   <Image
                     src={project.image || "/placeholder.svg"}
                     alt={project.title}
@@ -326,7 +461,12 @@ export default function Projects() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center z-20">
                     <div className="flex gap-4 transform translate-y-10 group-hover:translate-y-0 transition-transform duration-300">
                       <AnimatedTooltip content="View source code">
-                        <Button size="sm" variant="secondary" asChild className="backdrop-blur-sm">
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          asChild
+                          className="backdrop-blur-sm"
+                        >
                           <a
                             href={project.github}
                             target="_blank"
@@ -339,7 +479,11 @@ export default function Projects() {
                         </Button>
                       </AnimatedTooltip>
                       <AnimatedTooltip content="View live demo">
-                        <Button size="sm" asChild style={{ backgroundColor: project.color }}>
+                        <Button
+                          size="sm"
+                          asChild
+                          style={{ backgroundColor: project.color }}
+                        >
                           <a
                             href={project.demo}
                             target="_blank"
@@ -356,7 +500,10 @@ export default function Projects() {
                 </div>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
-                    <span className="h-3 w-3 rounded-full" style={{ backgroundColor: project.color }}></span>
+                    <span
+                      className="h-3 w-3 rounded-full"
+                      style={{ backgroundColor: project.color }}
+                    ></span>
                     {project.title}
                   </CardTitle>
                   <CardDescription>{project.description}</CardDescription>
@@ -364,7 +511,11 @@ export default function Projects() {
                 <CardFooter>
                   <div className="flex flex-wrap gap-2">
                     {project.technologies.map((tech) => (
-                      <Badge key={tech} variant="secondary" className="bg-secondary/50">
+                      <Badge
+                        key={tech}
+                        variant="secondary"
+                        className="bg-secondary/50"
+                      >
                         {tech}
                       </Badge>
                     ))}
@@ -382,12 +533,18 @@ export default function Projects() {
           viewport={{ once: true }}
           className="mt-12 text-center"
         >
-          <Button variant="outline" size="lg" className="gap-2 hover:scale-105 transition-transform">
+          <Link href="https://github.com/ayuxsh009?tab=repositories">
+          <Button
+            variant="outline"
+            size="lg"
+            className="gap-2 hover:scale-105 transition-transform"
+          >
             <Code size={16} />
             View All Projects
           </Button>
+          </Link>
         </motion.div>
       </motion.div>
     </section>
-  )
+  );
 }

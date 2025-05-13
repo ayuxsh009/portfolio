@@ -59,7 +59,7 @@ export default function Footer() {
               </AnimatedTooltip>
               <AnimatedTooltip content="Twitter">
                 <motion.a
-                  href="https://twitter.com"
+                  href="https://x.com/Ayushh___Gupta"
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ y: -5 }}
